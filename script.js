@@ -13,8 +13,6 @@ function multiply(num1, num2) {
 function divide(num1, num2) {
     if (num2 !== 0) {
         return Math.round((num1 / num2) * 100) / 100;
-    } else {
-        return "Error";
     }
 }
 
@@ -89,7 +87,7 @@ operators.forEach(operator => {
     operator.addEventListener("click", (e) => {
 
         // Code for selecting operator, work if num2 is not been chosen and operator is not "="
-        if (e.target.value !== "=" && num2 === undefined) {
+        if (e.target.value !== "=" && num2 === undefined && num1 !== undefined) {
 
             // Code for replacing operator in case of wrong operator chosen
             if (operatorValue !== undefined) {
@@ -99,13 +97,20 @@ operators.forEach(operator => {
             display.textContent += " " + operatorValue;
 
             // Code for calculating result.
-        } else if (result !== undefined && e.target.value !== "=") {
+        } else if (operatorValue === "/" && num2 === "0") {
+            display.textContent = "Cannot divide by zero!";
+            operatorValue = undefined;
+            num1 = undefined;
+            num2 = undefined;
+        } else if ((result !== undefined && e.target.value !== "=")) {
             num1 = result;
             num2 = undefined;
             result = undefined;
             operatorValue = e.target.value;
+
             display.textContent = `${num1} ${operatorValue} `;
-        } else if (e.target.value === "=" && num2 !== undefined && operatorValue !== undefined && result === undefined) {
+
+        } else if (e.target.value === "=" && num2 !== undefined && operatorValue !== undefined) {
             result = operate(+num1, +num2, operatorValue);
             console.log(`${num1} ${num2}`);
             display.textContent += ` ${e.target.value} ${result}`;
