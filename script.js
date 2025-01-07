@@ -52,23 +52,21 @@ let result;
 digits.forEach(digit => {
     digit.addEventListener("click", (e) => {
 
-        // Code works only when result is not calculated
+        // Stop user to write number after result (ex: 1 + 1 = 15'553')
         if (result === undefined) {
 
-            // Code for choosing first number
+            // User can enter first number before choosing operator
             if (operatorValue === undefined) {
-                if (num1 === undefined || num1 === "0") {
-                    num1 = e.target.value;
-                } else {
-                    num1 += e.target.value;
-                }
+
+                if (num1 === undefined || num1 === "0") num1 = e.target.value;
+                else num1 += e.target.value;
+
                 display.textContent = num1;
 
-                //Code for choosing second number
+                // User can enter second number after choosing operator
             } else {
                 if (num2 === undefined || num2 === "0") {
                     num2 = e.target.value;
-                    display.textContent += " ";
                 } else {
                     num2 += e.target.value;
                 }
@@ -86,22 +84,24 @@ digits.forEach(digit => {
 operators.forEach(operator => {
     operator.addEventListener("click", (e) => {
 
-        // Code for selecting operator, work if num2 is not been chosen and operator is not "="
+        // User can choose operator (but not "=") if num1 contains a value and num2 doesn't contain a value
         if (e.target.value !== "=" && num2 === undefined && num1 !== undefined) {
 
-            // Code for replacing operator in case of wrong operator chosen
+            // User can modify the operator if he didn't enter a digit for num2
             if (operatorValue !== undefined) {
-                display.textContent = display.textContent.substring(0, display.textContent.length - 1);
+                display.textContent = display.textContent.substring(0, display.textContent.length - 2);
             }
             operatorValue = e.target.value;
-            display.textContent += " " + operatorValue;
+            display.textContent += " " + operatorValue + " ";
 
-            // Code for calculating result.
+            // Stop the "divide by zero" error.
         } else if (operatorValue === "/" && num2 === "0") {
             display.textContent = "Cannot divide by zero!";
             operatorValue = undefined;
             num1 = undefined;
             num2 = undefined;
+
+            // User can chain operations with result being num1
         } else if ((result !== undefined && e.target.value !== "=")) {
             num1 = result;
             num2 = undefined;
@@ -110,9 +110,9 @@ operators.forEach(operator => {
 
             display.textContent = `${num1} ${operatorValue} `;
 
+            // The operation is calculated
         } else if (e.target.value === "=" && num2 !== undefined && operatorValue !== undefined) {
             result = operate(+num1, +num2, operatorValue);
-            console.log(`${num1} ${num2}`);
             display.textContent += ` ${e.target.value} ${result}`;
         }
     })
