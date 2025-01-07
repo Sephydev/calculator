@@ -44,6 +44,7 @@ function operate(num1, num2, operator) {
 const digits = document.querySelectorAll(".digit");
 const operators = document.querySelectorAll(".operator");
 const display = document.querySelector("#display");
+const clear = document.querySelector("#clear");
 
 let num1;
 let operatorValue;
@@ -94,14 +95,29 @@ operators.forEach(operator => {
             if (operatorValue !== undefined) {
                 display.textContent = display.textContent.substring(0, display.textContent.length - 1);
             }
-            console.log(operatorValue);
             operatorValue = e.target.value;
             display.textContent += " " + operatorValue;
 
             // Code for calculating result.
-        } else if (e.target.value === "=" && num2 !== undefined && operatorValue !== undefined) {
+        } else if (result !== undefined && e.target.value !== "=") {
+            num1 = result;
+            num2 = undefined;
+            result = undefined;
+            operatorValue = e.target.value;
+            display.textContent = `${num1} ${operatorValue} `;
+        } else if (e.target.value === "=" && num2 !== undefined && operatorValue !== undefined && result === undefined) {
             result = operate(+num1, +num2, operatorValue);
+            console.log(`${num1} ${num2}`);
             display.textContent += ` ${e.target.value} ${result}`;
         }
     })
+})
+
+clear.addEventListener("click", () => {
+    num1 = undefined;
+    num2 = undefined;
+    operatorValue = undefined;
+    result = undefined;
+
+    display.textContent = "0";
 })
