@@ -42,10 +42,11 @@ function operate(num1, num2, operator) {
 }
 
 const digits = document.querySelectorAll(".digit");
+const operators = document.querySelectorAll(".operator");
 const display = document.querySelector("#display");
 
 let num1 = 0;
-const operator = "+";
+let operatorValue;
 const num2 = 5;
 
 digits.forEach(digit => {
@@ -59,4 +60,16 @@ digits.forEach(digit => {
     })
 })
 
-console.log(operate(num1, num2, operator));
+operators.forEach(operator => {
+    operator.addEventListener("click", (e) => {
+        if (e.target.value !== "=") {
+            if (operatorValue !== undefined) {
+                console.log("test")
+                display.textContent = display.textContent.substring(0, display.textContent.length - 1);
+            }
+            console.log(operatorValue);
+            operatorValue = e.target.value;
+            display.textContent += " " + operatorValue;
+        }
+    })
+})
