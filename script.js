@@ -45,7 +45,7 @@ const digits = document.querySelectorAll(".digit");
 const operators = document.querySelectorAll(".operator");
 const display = document.querySelector("#display");
 
-let num1 = 0;
+let num1;
 let operatorValue;
 let num2;
 let result;
@@ -58,7 +58,7 @@ digits.forEach(digit => {
 
             // Code for choosing first number
             if (operatorValue === undefined) {
-                if (num1 === 0) {
+                if (num1 === undefined || num1 === "0") {
                     num1 = e.target.value;
                 } else {
                     num1 += e.target.value;
@@ -67,12 +67,18 @@ digits.forEach(digit => {
 
                 //Code for choosing second number
             } else {
-                if (num2 === undefined) {
+                if (num2 === undefined || num2 === "0") {
                     num2 = e.target.value;
+                    display.textContent += " ";
                 } else {
                     num2 += e.target.value;
                 }
-                display.textContent += " " + num2;
+
+                if (display.textContent.charAt(display.textContent.length - 1) === "0") {
+                    display.textContent = display.textContent.substring(0, display.textContent.length - 1);
+                }
+
+                display.textContent += e.target.value;
             }
         }
     })
