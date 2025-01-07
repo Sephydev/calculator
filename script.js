@@ -2,4 +2,8 @@ function add(num1, num2) {
     return num1 + num2;
 }
 
-console.log(add(8, 5));
+function subtract(num1, num2) {
+    return num1 - num2;
+}
+
+console.log(subtract(8, 5));
