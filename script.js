@@ -47,22 +47,34 @@ const display = document.querySelector("#display");
 
 let num1 = 0;
 let operatorValue;
-const num2 = 5;
+let num2;
+let result;
 
 digits.forEach(digit => {
     digit.addEventListener("click", (e) => {
-        if (num1 === 0) {
-            num1 = e.target.value;
-        } else {
-            num1 += e.target.value;
+        if (result === undefined) {
+            if (operatorValue === undefined) {
+                if (num1 === 0) {
+                    num1 = e.target.value;
+                } else {
+                    num1 += e.target.value;
+                }
+                display.textContent = num1;
+            } else {
+                if (num2 === undefined) {
+                    num2 = e.target.value;
+                } else {
+                    num2 += e.target.value;
+                }
+                display.textContent += " " + num2;
+            }
         }
-        display.textContent = num1;
     })
 })
 
 operators.forEach(operator => {
     operator.addEventListener("click", (e) => {
-        if (e.target.value !== "=") {
+        if (e.target.value !== "=" && num2 === undefined) {
             if (operatorValue !== undefined) {
                 console.log("test")
                 display.textContent = display.textContent.substring(0, display.textContent.length - 1);
@@ -70,6 +82,9 @@ operators.forEach(operator => {
             console.log(operatorValue);
             operatorValue = e.target.value;
             display.textContent += " " + operatorValue;
+        } else if (e.target.value === "=") {
+            result = operate(+num1, +num2, operatorValue);
+            display.textContent += ` ${e.target.value} ${result}`;
         }
     })
 })
