@@ -41,8 +41,22 @@ function operate(num1, num2, operator) {
     return result;
 }
 
-const num1 = 8;
+const digits = document.querySelectorAll(".digit");
+const display = document.querySelector("#display");
+
+let num1 = 0;
 const operator = "+";
 const num2 = 5;
+
+digits.forEach(digit => {
+    digit.addEventListener("click", (e) => {
+        if (num1 === 0) {
+            num1 = e.target.value;
+        } else {
+            num1 += e.target.value;
+        }
+        display.textContent = num1;
+    })
+})
 
 console.log(operate(num1, num2, operator));
