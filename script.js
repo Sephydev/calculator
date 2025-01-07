@@ -17,4 +17,9 @@ function divide(num1, num2) {
         return "Error";
     }
 }
-console.log(divide(8, 5));
+
+const num1 = 8;
+const operator = "+";
+const num2 = 5;
+
+console.log(divide(num1, num2));
